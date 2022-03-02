@@ -1,10 +1,13 @@
 //SPDX-License-Identifier: MIT
 
-// work agreements as NFTs. requester/executer
-// mint a new nft (nft = workrequest)
-// nft should have in the metadata a link with the contract + image
-// minting also locks an amount in the SC
-// the provider buys the nft 
+// work agreements as NFTs. requester/executer OK
+// mint a new nft (nft = workrequest) OK
+// nft should have in the metadata a link with the contract + image OK
+// set an image by default 
+// add a link with some text that should be stored somewhere OK
+// make possible to upload file automatically to IPFS
+// minting also locks an amount in the SC OK
+// the provider buys the nft OK
 // burn the nft when work completed
 // request burning transfers the locked amount to the executer  
 
@@ -31,16 +34,39 @@ contract Workchain is ERC721URIStorage {
         workId = 0;
     }
 
+    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
+            if (_i == 0) {
+                return "0";
+            }
+            uint j = _i;
+            uint len;
+            while (j != 0) {
+                len++;
+                j /= 10;
+            }
+            bytes memory bstr = new bytes(len);
+            uint k = len;
+            while (_i != 0) {
+                k = k-1;
+                uint8 temp = (48 + uint8(_i - _i / 10 * 10));
+                bytes1 b1 = bytes1(temp);
+                bstr[k] = b1;
+                _i /= 10;
+            }
+            return string(bstr);
+        }
+
     function formatTokenURI(string memory _name, string memory _filePath, uint256 _offeredPrice) public pure returns(string memory) {
         string memory baseURL = "data:application/json;base64,";
+        string memory _offeredPriceString = uint2str(_offeredPrice);
         string memory tokenURI = string(abi.encodePacked(
             baseURL,
             Base64.encode(
                 bytes(abi.encodePacked(
                     '{"name": "',_name ,'", ', 
-                    '"description": "',_filePath ,'", ', 
-                    '"attributes": "{price: ',_offeredPrice ,'}", ', 
-                    '"image": ""}'
+                    '"description": "https://ipfs.io/ipfs/',_filePath ,'", ', 
+                    '"attributes": [{"trait_type":"price", "value":"',_offeredPriceString ,'"}], ', 
+                    '"image": "https://ipfs.io/ipfs/QmNnm8yz15m5f2qzL4LVJ2TBkCjQf93XnXMxMBbn4FPzSt"}'
                     )))));
 
         return tokenURI;
@@ -48,7 +74,7 @@ contract Workchain is ERC721URIStorage {
 
     function createWork(string memory _name, string memory _filePath, uint256 _offeredPrice) payable public {
 
-        // require(msg.value == _offeredPrice, "You need to transfer an equal amount of money to the offered price in the contract");
+        require(msg.value == _offeredPrice, "You need to transfer an equal amount of money to the offered price in the contract");
 
         // an nft gets minted and then it updates the work ID
         _mint(msg.sender, workId);

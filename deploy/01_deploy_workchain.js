@@ -29,7 +29,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const txCreateWork = await workchainContract.createWork(
       "First Contract",
-      "www.google.com",
+      "QmSyp8sWb8wEYGcZun5GMywwSu3hsiMziJs86o8muT3G7p",
       ethers.utils.parseEther("0.1").toString(),
       { value: ethers.utils.parseEther("0.1").toString() }
     );
