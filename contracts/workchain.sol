@@ -64,9 +64,9 @@ contract Workchain is ERC721URIStorage {
             Base64.encode(
                 bytes(abi.encodePacked(
                     '{"name": "',_name ,'", ', 
-                    '"description": "https://ipfs.io/ipfs/',_filePath ,'", ', 
+                    '"description": "ipfs//',_filePath ,'", ', 
                     '"attributes": [{"trait_type":"price", "value":"',_offeredPriceString ,'"}], ', 
-                    '"image": "https://ipfs.io/ipfs/QmNnm8yz15m5f2qzL4LVJ2TBkCjQf93XnXMxMBbn4FPzSt"}'
+                    '"image": "ipfs//QmNnm8yz15m5f2qzL4LVJ2TBkCjQf93XnXMxMBbn4FPzSt"}'
                     )))));
 
         return tokenURI;
@@ -95,7 +95,7 @@ contract Workchain is ERC721URIStorage {
         _transfer(ownerOf(_tokenId), msg.sender, _tokenId);
         
         // work status updated
-        workIdStatus[workId] = workStatus.Work_Ongoing;
+        workIdStatus[_tokenId] = workStatus.Work_Ongoing;
     }
 
     function closeWork(uint256 _tokenId) payable public {
