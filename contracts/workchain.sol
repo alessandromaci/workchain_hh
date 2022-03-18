@@ -1,15 +1,15 @@
 //SPDX-License-Identifier: MIT
 
-// work agreements as NFTs. requester/executer OK
-// mint a new nft (nft = workrequest) OK
-// nft should have in the metadata a link with the contract + image OK
-// set an image by default 
-// add a link with some text that should be stored somewhere OK
+// work agreements as NFTs. requester/executer [OK]
+// mint a new nft (nft = workrequest) [OK]
+// nft should have in the metadata a link with the contract + image [OK]
+// set an image by default [OK]
+// add a link with some text that should be stored somewhere [OK]
+// minting also locks an amount in the SC [OK]
+// the provider buys the nft [OK]
+// burn the nft when work completed [OK]
+// request burning transfers the locked amount to the executer [OK]
 // make possible to upload file automatically to IPFS
-// minting also locks an amount in the SC OK
-// the provider buys the nft OK
-// burn the nft when work completed
-// request burning transfers the locked amount to the executer  
 
 pragma solidity ^0.8.0;
 
